@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Trang Chủ - Triết Học Hệ Số</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/shared.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="css/ace-deck.css?v=4"/>
+    <link rel="stylesheet" href="css/story.css"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: { fontFamily: { sans: ["Be Vietnam Pro", "sans-serif"] } } }
+        }
+    </script>
+</head>
+<body class="min-h-screen pb-16 lg:pb-0" >
+
+    <side-bar active="index"></side-bar>
+
+    <!-- Ace Deck navigation overlay (full-screen fade during card click) -->
+    <div id="ace-nav-overlay" aria-hidden="true"></div>
+
+    <div class="lg:pl-64 flex flex-col min-h-screen">
+
+        <top-bar active="index"></top-bar>
+
+        <!-- ═══ ACE DECK HERO SECTION ═══ -->
+        <section id="ace-deck-section" aria-label="Khám phá triết học qua bộ bài">
+            <canvas id="ace-particles" aria-hidden="true"></canvas>
+            <div id="ace-deck-wrapper"
+                 tabindex="0"
+                 role="button"
+                 aria-label="Nhấn để mở bộ bài triết học"
+                 aria-expanded="false">
+                <div class="box">
+                    <div class="box-face bf-front"></div>
+                    <div class="box-face bf-back"></div>
+                    <div class="box-face bf-left"></div>
+                    <div class="box-face bf-right"></div>
+                    <div class="box-face bf-top"></div>
+                    <div class="box-face bf-bottom"></div>
+                </div>
+            </div>
+            <div id="ace-cards-container" role="list" aria-label="Các chủ đề triết học"></div>
+            <div id="ace-burst" aria-hidden="true"></div>
+            <p id="ace-hint" aria-hidden="true">Nhấn để khám phá</p>
+        </section>
+        <!-- ════════════════════════════ -->
+
+        <main class="flex-grow w-full max-w-6xl mx-auto px-6 py-8">
+            <section class="text-center py-12 px-4 max-w-3xl mx-auto space-y-6">
+                <h2 id="main-title" class="hero-title text-4xl md:text-5xl font-black tracking-tight uppercase leading-tight dark-heading-secondary">
+                    Tha Hóa &amp; Khát Vọng Giải Phóng
+                </h2>
+                <p id="main-desc" class="hero-desc text-lg leading-relaxed dark-text">
+                    Chào mừng đến với không gian trải nghiệm tư duy. Sự phát triển tột cùng của công nghệ đang biến con người thành nô lệ cho máy móc (Cực Âm), hay đang mở ra một kỷ nguyên tự do tự tại chân chính?
+                </p>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                <div class="home-card card-surface p-8 rounded-2xl shadow-sm flex flex-col justify-between" style="border:1px solid var(--border-card);">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--bg-banner-primary); color:var(--text-banner);">
+                                <span class="material-symbols-outlined">explore</span>
+                            </div>
+                            <h3 id="home-box1-title" class="text-2xl font-bold dark-heading">Tư Tưởng Phương Tây</h3>
+                        </div>
+                        <p id="home-box1-content" class="text-base leading-relaxed dark-text">
+                            Các học thuyết phương Tây (Mác-Lênin) chỉ ra rằng khi người lao động bị tách rời khỏi thành quả và công cụ lao động, họ rơi vào trạng thái tha hóa. Trong thế giới kỹ thuật số, con người bị bóc lột dữ liệu, bị thao túng bởi các dòng code xuyên đêm.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="home-card card-surface p-8 rounded-2xl shadow-sm flex flex-col justify-between" style="border:1px solid var(--border-card);">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:#da3148; color:#fffbff;">
+                                <span class="material-symbols-outlined">spa</span>
+                            </div>
+                            <h3 id="home-box2-title" class="text-2xl font-bold dark-heading">Vũ Trụ Quan Phương Đông</h3>
+                        </div>
+                        <p id="home-box2-content" class="text-base leading-relaxed dark-text">
+                            Triết học phương Đông mượn quy luật Âm Dương để giải thích trạng thái bế tắc này. Bóng tối, sự cô lập, áp lực đè nặng chính là biểu hiện của "Thuần Âm" - năng lượng trì trệ, thiếu đi sự chuyển động sinh sôi của Dương thế.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-card card-surface my-10 p-6 md:p-10 rounded-2xl shadow-sm flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden" style="border:1px solid var(--border-card);">
+                <div class="absolute -left-6 -top-6 opacity-[0.03] pointer-events-none select-none">
+                    <span class="material-symbols-outlined text-[120px]">psychology_alt</span>
+                </div>
+                <div class="absolute -right-6 -bottom-6 opacity-[0.03] pointer-events-none select-none">
+                    <span class="material-symbols-outlined text-[120px]">school</span>
+                </div>
+
+                <h3 class="text-2xl md:text-3xl font-black uppercase tracking-wide dark-heading-secondary relative z-10">
+                    Bộ bài không chỉ là trò chơi
+                </h3>
+
+                <p class="text-base md:text-lg leading-relaxed dark-text font-medium relative z-10">
+                    Nó là <span class="font-bold dark-heading">hành trình nhận thức của Po</span><br class="hidden md:block"/>
+                    và cũng là <span class="font-bold dark-heading">hành trình trưởng thành của mỗi sinh viên</span>.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-2 md:gap-4 py-2 w-full max-w-2xl relative z-10">
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 cursor-default" style="background:#ffffff; color:var(--bg-banner-primary);">
+                            <span class="material-symbols-outlined text-xl">visibility</span>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider dark-text">Cảm giác</span>
+                    </div>
+
+                    <span class="material-symbols-outlined text-gray-400 hidden sm:block text-base">arrow_forward_ios</span>
+
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 cursor-default" style="background:#ffffff; color:var(--bg-banner-primary);">
+                            <span class="material-symbols-outlined text-xl">psychology</span>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider dark-text">Tư duy</span>
+                    </div>
+
+                    <span class="material-symbols-outlined text-gray-400 hidden sm:block text-base">arrow_forward_ios</span>
+
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 cursor-default" style="background:#ffffff; color:var(--bg-banner-primary);">
+                            <span class="material-symbols-outlined text-xl">architecture</span>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider dark-text">Thực tiễn</span>
+                    </div>
+
+                    <span class="material-symbols-outlined text-gray-400 hidden sm:block text-base">arrow_forward_ios</span>
+
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 cursor-default" style="background:#ffffff; color:#da3148;">
+                            <span class="material-symbols-outlined text-xl">public</span>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider" style="color:#da3148;">Hiểu xã hội</span>
+                    </div>
+                </div>
+
+                <div class="pt-4 w-full max-w-md mx-auto relative z-10" style="border-top: 2px dashed var(--border-card);">
+                    <p class="text-lg md:text-xl font-black italic dark-heading">
+                        "Đó chính là tinh thần của<br/> Triết học Mác – Lênin."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <section class="w-full py-12 px-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl lg:text-4xl font-black mb-3 dark-heading">Hành Trình Ngộ Triết của Po</h2>
+                        <p class="text-base leading-relaxed dark-text">Khám phá qua trải nghiệm câu chuyện hoặc xem video tổng hợp</p>
+                    </div>
+
+                    <!-- Tabs Navigation -->
+                    <div class="flex justify-center mb-8">
+                        <div class="inline-flex rounded-full p-1 bg-gray-100 dark:bg-gray-800" style="border:1px solid var(--border-card);">
+                            <button id="tab-story" class="px-6 py-2 rounded-full text-sm font-bold transition-all shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white" onclick="switchTab('story')">
+                                📖 Đọc Câu Chuyện
+                            </button>
+                            <button id="tab-video" class="px-6 py-2 rounded-full text-sm font-bold transition-all text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" onclick="switchTab('video')">
+                                🎬 Xem Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div id="content-story">
+                        <div id="story-reader" class="card-surface p-8 rounded-2xl shadow-lg mx-auto" style="border:1px solid var(--border-card);"></div>
+                    </div>
+
+                    <div id="content-video" class="hidden">
+                        <div class="card-surface p-4 md:p-8 rounded-2xl shadow-lg mx-auto" style="border:1px solid var(--border-card);">
+                            <!-- Video Player: Sử dụng file video từ folder video -->
+                            <div class="relative w-full overflow-hidden rounded-xl" style="padding-top: 56.25%;"> <!-- 16:9 Aspect Ratio -->
+                                <video
+                                    class="absolute top-0 left-0 w-full h-full"
+                                    controls
+                                    controlsList="nodownload"
+                                    style="background: #000;">
+                                    <source src="video/videomln111.mp4" type="video/mp4">
+                                    Trình duyệt của bạn không hỗ trợ phát video này.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="banner-primary mt-12 text-white p-8 rounded-2xl relative overflow-hidden shadow-md" style="background:var(--bg-banner-primary);">
+                <div class="relative z-10 space-y-4 max-w-2xl">
+                    <h4 class="text-xl font-bold">Hành Trình Triết Học Hệ Số</h4>
+                    <p class="text-sm opacity-85 leading-relaxed">
+                        Khám phá sự giao thoa sâu sắc giữa Triết học phương Tây tiến bộ và Vũ trụ quan phương Đông. Bật công tắc để chuyển giao giữa trạng thái Tù túng (Thuần Âm) và Tự do (Hài hòa Âm Dương).
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4 items-center">
+                        <a href="lythuyet.html" class="px-6 py-2.5 rounded-full text-sm font-bold hover:opacity-90 transition-all active:scale-95 shadow-sm" style="background:#da3148; color:#fffbff;">
+                            Đọc Lý Thuyết Chi Tiết
+                        </a>
+                        <a href="thebai.html" class="px-6 py-2.5 rounded-full text-sm font-bold hover:opacity-90 transition-all active:scale-95 shadow-sm" style="color:var(--bg-banner-primary); background: white;">
+                            Xem Hệ Thống Thẻ Bài
+                        </a>
+                    </div>
+                </div>
+                <div class="absolute -top-6 -right-6 opacity-10 pointer-events-none select-none">
+                    <span class="material-symbols-outlined text-[160px]">insights</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="w-full max-w-6xl mx-auto px-6 py-8 text-center" style="border-top:1px solid var(--border-footer);">
+            <p class="text-xs">© 2026 Nhóm 4 Triết Học MLN111 | Thẻ Bài Panda</p>
+        </footer>
+    </div>
+
+    <bottom-bar active="index"></bottom-bar>
+
+    <script src="js/components.js"></script>
+    <script src="js/story.js"></script>
+    <script>
+        // Xử lý chuyển đổi Tab Câu chuyện / Video
+        function switchTab(tab) {
+            const btnStory = document.getElementById('tab-story');
+            const btnVideo = document.getElementById('tab-video');
+            const contentStory = document.getElementById('content-story');
+            const contentVideo = document.getElementById('content-video');
+
+            // Style class cho trạng thái Active / Inactive
+            const activeClasses = ['bg-white', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-white', 'shadow-sm'];
+            const inactiveClasses = ['text-gray-500', 'hover:text-gray-900', 'dark:text-gray-400', 'dark:hover:text-white'];
+
+            if (tab === 'story') {
+                contentStory.classList.remove('hidden');
+                contentVideo.classList.add('hidden');
+
+                btnStory.classList.add(...activeClasses);
+                btnStory.classList.remove(...inactiveClasses);
+
+                btnVideo.classList.remove(...activeClasses);
+                btnVideo.classList.add(...inactiveClasses);
+            } else {
+                contentStory.classList.add('hidden');
+                contentVideo.classList.remove('hidden');
+
+                btnVideo.classList.add(...activeClasses);
+                btnVideo.classList.remove(...inactiveClasses);
+
+                btnStory.classList.remove(...activeClasses);
+                btnStory.classList.add(...inactiveClasses);
+            }
+        }
+    </script>
+    <script>
+    /* ═══════════════════════════════════════════════════════
+       ACE DECK — Engine
+       Card destinations: edit CARD_CONFIG below.
+       Router: replace window.location.href in doNavigate().
+    ═══════════════════════════════════════════════════════ */
+    const CARD_CONFIG = [
+      {
+        suit: '♠', suitClass: 'suit-black', suitName: 'Bích',
+        label: 'Lý Luận', sublabel: 'Logic & Theory',
+        href: 'bich.html', img: 'images/spades/A.png',
+        fanX: -295, fanY: 0, fanRot: -18,
+        mobX: -115, mobY: 0, mobRot: -18,
+        stagger: 0,   arcDir: 1,
+      },
+      {
+        suit: '♥', suitClass: 'suit-red', suitName: 'Cơ',
+        label: 'Thẻ Bài', sublabel: 'Card System',
+        href: 'co.html', img: 'images/hearts/A.png',
+        fanX: -98, fanY: 0, fanRot: -6,
+        mobX: -46, mobY: 0, mobRot: -6,
+        stagger: 80,  arcDir: 1,
+      },
+      {
+        suit: '♦', suitClass: 'suit-red', suitName: 'Rô',
+        label: 'Mỹ Học', sublabel: 'Aesthetics',
+        href: 'ro.html', img: 'images/diamonds/A.png',
+        fanX: 98, fanY: 0, fanRot: 6,
+        mobX: 46, mobY: 0, mobRot: 6,
+        stagger: 160, arcDir: -1,
+      },
+      {
+        suit: '♣', suitClass: 'suit-black', suitName: 'Chuồn',
+        label: 'Siêu Hình', sublabel: 'Metaphysics',
+        href: 'chuon.html', img: 'images/clovers/A.png',
+        fanX: 295, fanY: 0, fanRot: 18,
+        mobX: 115, mobY: 0, mobRot: 18,
+        stagger: 240, arcDir: -1,
+      },
+    ];
+
+    const sectionEl  = document.getElementById('ace-deck-section');
+    const deckEl     = document.getElementById('ace-deck-wrapper');
+    const cardsEl    = document.getElementById('ace-cards-container');
+    const burstEl    = document.getElementById('ace-burst');
+    const hintEl     = document.getElementById('ace-hint');
+    const overlayEl  = document.getElementById('ace-nav-overlay');
+    const particleCV = document.getElementById('ace-particles');
+
+    let deckState = 'idle';
+    let cardEls   = [];
+
+    (function initParticles() {
+      const ctx = particleCV.getContext('2d');
+      let W, H, particles = [];
+      function resize() {
+        W = particleCV.width  = sectionEl.offsetWidth;
+        H = particleCV.height = sectionEl.offsetHeight;
+      }
+      function mkParticle() {
+        return {
+          x: Math.random() * (W || 400), y: Math.random() * (H || 600),
+          r: Math.random() * 1.4 + 0.3, speed: Math.random() * 0.35 + 0.08,
+          angle: Math.random() * Math.PI * 2,
+          a: Math.random() * 0.35 + 0.08,
+          aDir: (Math.random() < 0.5 ? 1 : -1) * 0.004,
+          gold: Math.random() < 0.28,
+        };
+      }
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+        const dark = document.documentElement.classList.contains('dark');
+        particles.forEach(p => {
+          p.x += Math.cos(p.angle) * p.speed; p.y += Math.sin(p.angle) * p.speed;
+          p.a += p.aDir;
+          if (p.a < 0.06 || p.a > 0.5) p.aDir *= -1;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold ? `rgba(201,168,76,${p.a})`
+            : dark ? `rgba(170,195,255,${p.a * 0.55})` : `rgba(70,50,20,${p.a * 0.38})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      resize();
+      for (let i = 0; i < 75; i++) particles.push(mkParticle());
+      window.addEventListener('resize', resize);
+      tick();
+    })();
+
+    function buildCards() {
+      cardsEl.innerHTML = ''; cardEls = [];
+      CARD_CONFIG.forEach((cfg, i) => {
+        const el = document.createElement('div');
+        el.className = 'ace-card';
+        el.setAttribute('role', 'listitem');
+        el.setAttribute('tabindex', '-1');
+        el.setAttribute('aria-label', `${cfg.suitName} — ${cfg.label}: ${cfg.sublabel}`);
+        el.innerHTML = `
+          <div class="ace-card-inner">
+            <div class="ace-card-back"></div>
+            <div class="ace-card-front">
+              <img src="${cfg.img}" alt="Ace of ${cfg.suitName}" draggable="false">
+              <div class="c-shimmer"></div>
+            </div>
+          </div>`;
+        el._cfg = cfg; el._index = i;
+        el.addEventListener('mouseenter', onCardEnter);
+        el.addEventListener('mouseleave', onCardLeave);
+        el.addEventListener('mousemove',  onCardTilt);
+        el.addEventListener('click',      onCardClick);
+        el.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onCardClick.call(el); }
+        });
+        cardsEl.appendChild(el); cardEls.push(el);
+      });
+    }
+
+    const isMobile = () => window.innerWidth <= 640;
+    function getFanPos(cfg) {
+      const m = isMobile();
+      return { x: m ? cfg.mobX : cfg.fanX, y: m ? cfg.mobY : cfg.fanY, r: m ? cfg.mobRot : cfg.fanRot };
+    }
+    function arcMid(fx, fy, arcDir, h = 68) {
+      const dist = Math.sqrt(fx*fx + fy*fy) || 1;
+      return { x: fx*0.46 + (-fy/dist)*arcDir*h, y: fy*0.46 + (fx/dist)*arcDir*h };
+    }
+    function setFanTransform(card) {
+      const { x, y, r } = getFanPos(card._cfg);
+      card.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%)) rotate(${r}deg) scale(1)`;
+    }
+
+    function explodeAndFan() {
+      if (deckState !== 'idle') return;
+      deckState = 'exploding';
+      hintEl.style.opacity = '0';
+      deckEl.setAttribute('aria-expanded', 'true');
+      burstEl.classList.add('burst--fire');
+
+      const boxEl = deckEl.querySelector('.box');
+      const currentTransform = getComputedStyle(boxEl).transform;
+      boxEl.style.animation = 'none';
+      boxEl.style.transform = currentTransform;
+      void boxEl.offsetWidth;
+      boxEl.animate([
+        { transform: currentTransform, offset: 0 },
+        { transform: 'rotateX(0deg) rotateY(0deg) scale(1.12)', offset: 0.22, easing: 'ease-out' },
+        { transform: 'rotateX(-12deg) rotateY(8deg) scale(0.55) translateZ(70px)', offset: 0.62 },
+        { transform: 'rotateX(-20deg) rotateY(18deg) scale(0) translateZ(120px)', offset: 1 },
+      ], { duration: 480, easing: 'ease-in', fill: 'forwards' });
+
+      deckEl.classList.add('exploding');
+      setTimeout(() => {
+        deckEl.style.display = 'none';
+        cardEls.forEach(card => {
+          const cfg = card._cfg;
+          const { x: fx, y: fy, r: fr } = getFanPos(cfg);
+          const mid = arcMid(fx, fy, cfg.arcDir, isMobile() ? 42 : 68);
+          const inner = card.querySelector('.ace-card-inner');
+          card.style.opacity = '1';
+          card.style.zIndex  = String(15 + card._index);
+          const flyAnim = card.animate([
+            { transform: 'translate(-50%,-50%) rotate(0deg) scale(0.75)', offset: 0 },
+            { transform: `translate(calc(${mid.x}px - 50%),calc(${mid.y}px - 50%)) rotate(${fr*0.35}deg) scale(1.06)`, offset: 0.44 },
+            { transform: `translate(calc(${fx}px - 50%),calc(${fy-14}px - 50%)) rotate(${fr*1.18}deg) scale(1.02)`, offset: 0.82 },
+            { transform: `translate(calc(${fx}px - 50%),calc(${fy}px - 50%)) rotate(${fr}deg) scale(1)`, offset: 1 },
+          ], { duration: 860, delay: cfg.stagger, easing: 'cubic-bezier(0.34,1.56,0.64,1)', fill: 'forwards' });
+          const flipAnim = inner.animate([
+            { transform: 'rotateY(0deg)',   offset: 0 },
+            { transform: 'rotateY(0deg)',   offset: 0.37 },
+            { transform: 'rotateY(90deg)',  offset: 0.52, easing: 'ease-in' },
+            { transform: 'rotateY(180deg)', offset: 0.67, easing: 'ease-out' },
+            { transform: 'rotateY(180deg)', offset: 1 },
+          ], { duration: 860, delay: cfg.stagger, fill: 'forwards' });
+          flyAnim.onfinish = () => {
+            flyAnim.commitStyles();  flyAnim.cancel();
+            flipAnim.commitStyles(); flipAnim.cancel();
+            card.style.transition = 'transform 0.22s ease, filter 0.28s ease, opacity 0.22s ease';
+            card.classList.add('revealed');
+            card.setAttribute('tabindex', '0');
+          };
+        });
+        deckState = 'fanned';
+      }, 460);
+    }
+
+    function onCardEnter() {
+      if (deckState !== 'fanned') return;
+      this.classList.add('is-hovered');
+      this.style.zIndex = '50';
+      cardEls.forEach(c => {
+        if (c === this) return;
+        const { x, y, r } = getFanPos(c._cfg);
+        c.style.transform = `translate(calc(${x}px - 50%),calc(${y}px - 50%)) rotate(${r}deg) scale(0.93)`;
+        c.style.filter    = 'brightness(0.58) saturate(0.55)';
+      });
+    }
+    function onCardLeave() {
+      this.classList.remove('is-hovered');
+      this.style.zIndex = String(15 + this._index);
+      this.querySelector('.ace-card-inner').style.transform = 'rotateY(180deg)';
+      this.style.filter = '';
+      cardEls.forEach(c => { setFanTransform(c); c.style.filter = ''; });
+    }
+    function onCardTilt(e) {
+      if (deckState !== 'fanned') return;
+      const rect = this.getBoundingClientRect();
+      const dx = (e.clientX - (rect.left + rect.width/2))  / (rect.width/2);
+      const dy = (e.clientY - (rect.top  + rect.height/2)) / (rect.height/2);
+      const { x: fx, y: fy, r: fr } = getFanPos(this._cfg);
+      this.querySelector('.ace-card-inner').style.transform = `rotateY(${180+dx*13}deg) rotateX(${-dy*13}deg)`;
+      this.style.transform = `translate(calc(${fx}px - 50%),calc(${fy-13}px - 50%)) rotate(${fr}deg) scale(1.07)`;
+      this.style.filter    = `brightness(1.1) drop-shadow(${-dx*9}px ${-dy*9+18}px 28px var(--card-shadow))`;
+    }
+
+    function onCardClick() {
+      if (deckState !== 'fanned') return;
+      deckState = 'navigating';
+      const self = this, cfg = this._cfg;
+      cardEls.forEach(c => {
+        if (c === self) return;
+        const angle = Math.random()*Math.PI*2, dist = 540 + Math.random()*240;
+        c.style.transition  = 'transform 0.42s cubic-bezier(0.4,0,1,1), opacity 0.32s ease';
+        c.style.transform   = `translate(calc(${Math.cos(angle)*dist}px - 50%),calc(${Math.sin(angle)*dist}px - 50%)) rotate(${Math.random()*140-70}deg) scale(0.3)`;
+        c.style.opacity     = '0';
+        c.style.pointerEvents = 'none';
+      });
+      self.classList.remove('is-hovered');
+      self.style.zIndex    = '200';
+      self.style.transition = 'transform 0.48s cubic-bezier(0.16,1,0.3,1), opacity 0.42s ease';
+      self.style.transform  = 'translate(-50%,-50%) scale(3.8) rotate(0deg)';
+      setTimeout(() => { self.style.opacity = '0'; }, 160);
+      function doNavigate(href) { window.location.href = href; }
+      if (document.startViewTransition) {
+        setTimeout(() => document.startViewTransition(() => doNavigate(cfg.href)), 360);
+      } else {
+        overlayEl.classList.add('visible');
+        setTimeout(() => doNavigate(cfg.href), 620);
+      }
+    }
+
+    deckEl.addEventListener('click', explodeAndFan);
+    deckEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); explodeAndFan(); }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && deckState !== 'idle' && deckState !== 'navigating') resetDeck();
+    });
+
+    function resetDeck() {
+      deckState = 'idle';
+      deckEl.classList.remove('exploding');
+      deckEl.style.display = '';
+      deckEl.setAttribute('aria-expanded', 'false');
+      deckEl.setAttribute('aria-label', 'Nhấn để mở bộ bài triết học');
+      burstEl.classList.remove('burst--fire');
+      hintEl.style.opacity = '';
+      overlayEl.classList.remove('visible');
+      const boxEl = deckEl.querySelector('.box');
+      if (boxEl) { boxEl.style.animation = ''; boxEl.style.transform = ''; }
+      buildCards();
+    }
+
+    buildCards();
+    </script>
+    <script>
+        const toggle = document.getElementById('theme-toggle');
+        const modeText = document.getElementById('mode-text');
+
+        function updateContent(isLight) {
+            if (isLight) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                if(modeText) modeText.innerText = "TỰ DO (DƯƠNG)";
+                document.getElementById('main-title').innerText = "SỰ THỨC TỈNH VÀ TỰ DO BẢN NGÃ";
+                document.getElementById('main-desc').innerText = "Khi công tắc ý thức được bật, tư duy phá vỡ xiềng xích của thuật toán. Con người bước ra thế giới mở, dùng công nghệ để phục vụ sự phát triển toàn diện của nhân loại.";
+                document.getElementById('home-box1-title').innerText = "Giải Phóng Bản Chất";
+                document.getElementById('home-box1-content').innerText = "Triết học Mác khẳng định: Mục tiêu cuối cùng của lịch sử là giải phóng con người khỏi sự lệ thuộc vào thế giới vật chất, đưa lao động trở về đúng nghĩa là hoạt động sáng tạo tự do tự nguyện.";
+                document.getElementById('home-box2-title').innerText = "Âm Dương Hài Hòa";
+                document.getElementById('home-box2-content').innerText = "Ánh sáng ngập tràn mang năng lượng Dương khởi sinh. Ngũ hành tương sinh quay trở lại quỹ đạo cân bằng, giúp con người tìm thấy điểm giao hòa lý tưởng giữa đời sống công nghệ và tự nhiên học.";
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+                if(modeText) modeText.innerText = "TÙ TÚNG (ÂM)";
+                document.getElementById('main-title').innerText = "Tha Hóa & Khát Vọng Giải Phóng";
+                document.getElementById('main-desc').innerText = "Chào mừng đến với không gian trải nghiệm tư duy. Sự phát triển tột cùng của công nghệ đang biến con người thành nô lệ cho máy móc (Cực Âm), hay đang mở ra một kỷ nguyên tự do tự tại chân chính?";
+                document.getElementById('home-box1-title').innerText = "Tư Tưởng Phương Tây";
+                document.getElementById('home-box1-content').innerText = "Các học thuyết phương Tây (Mác-Lênin) chỉ ra rằng khi người lao động bị tách rời khỏi thành quả và công cụ lao động, họ rơi vào trạng thái tha hóa. Trong thế giới kỹ thuật số, con người bị bóc lột dữ liệu, bị thao túng bởi các dòng code xuyên đêm.";
+                document.getElementById('home-box2-title').innerText = "Vũ Trụ Quan Phương Đông";
+                document.getElementById('home-box2-content').innerText = "Triết học phương Đông mượn quy luật Âm Dương để giải thích trạng thái bế tắc này. Bóng tối, sự cô lập, áp lực đè nặng chính là biểu hiện của 'Thuần Âm' - năng lượng trì trệ, thiếu đi sự chuyển động sinh sôi của Dương thế.";
+            }
+        }
+
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            if(toggle) toggle.checked = true;
+            updateContent(true);
+        } else {
+            if(toggle) toggle.checked = false;
+            updateContent(false);
+        }
+
+        if(toggle) {
+            toggle.addEventListener('change', function() {
+                localStorage.setItem('theme', this.checked ? 'light' : 'dark');
+                updateContent(this.checked);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+/* ========================================
+   STORY.CSS - Comic-style Story Reader with Premium Cards
+   ======================================== */
+
+.story-container {
+    perspective: 1200px;
+    position: relative;
+}
+
+.story-card-wrapper {
+    display: grid;
+    align-items: start; /* align-items: center có thể làm nháy nhẹ do căn giữa, ưu tiên start hoặc center nếu cùng chiều cao */
+    justify-content: center;
+    position: relative;
+}
+
+.story-slide {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.9) translateY(30px);
+    pointer-events: none; /* Tránh click nhầm vào slide ẩn */
+}
+
+.story-slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.story-slide.exit {
+    opacity: 0;
+    transform: scale(0.9) translateY(-30px);
+}
+
+/* Premium Comic / Tarot Card Frame */
+.comic-frame {
+    background: var(--bg-card-surface);
+    border: 3px solid var(--text-sidebar-title);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    height: auto; /* Đã sửa: Cho phép khung bọc sát theo nội dung ảnh/chữ */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+html.dark .comic-frame {
+    border-color: rgba(171, 201, 240, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(171, 201, 240, 0.05);
+}
+
+/* Elegant Magical Border */
+.comic-frame::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 1px dashed rgba(171, 201, 240, 0.3);
+    border-radius: 1.2rem;
+    pointer-events: none;
+}
+
+/* Illustration Backdrop with Rich Gradients */
+.comic-illustration-container {
+    width: 100%;
+    display: block; /* Đã sửa: Bỏ flex để ảnh tự quyết định hình dáng */
+    margin-bottom: 1.5rem;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+}
+
+.comic-illustration {
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 2;
+    position: relative;
+    /* Đã bỏ font-size, text-shadow và animation float để tối ưu cho ảnh tĩnh */
+}
+
+/* ====================================
+   MỚI THÊM: Xử lý hiển thị ảnh trọn vẹn
+   ==================================== */
+.story-image {
+    width: 100%;
+    height: auto; 
+    display: block;
+    object-fit: contain; 
+    border-radius: 1rem;
+    position: relative;
+    z-index: 3;
+}
+
+/* Cosmic background effects */
+.cosmic-dust {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 75% 60%, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+/* Speech Bubble in Modern Card Design */
+.comic-text-bubble {
+    background: rgba(255, 255, 255, 0.95);
+    color: #111318;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    position: relative;
+    border-left: 5px solid var(--text-sidebar-title);
+}
+
+html.dark .comic-text-bubble {
+    background: rgba(26, 28, 32, 0.95);
+    color: #e2e2e5;
+    border-left-color: var(--text-sidebar-title);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Story controls */
+.story-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 0 1rem;
+}
+
+.story-progress {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-sidebar-title);
+    letter-spacing: 0.15rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Nút mũi tên overlay ở ngoài 2 bên thẻ câu chuyện */
+.story-overlay-nav {
+    position: absolute;
+    top: 50%;
+    left: -70px;
+    right: -70px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.story-overlay-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1a1c20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border: none;
+    pointer-events: auto;
+    font-size: 24px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.story-overlay-btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.15);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.story-overlay-btn:active {
+    transform: scale(0.95);
+}
+
+.story-overlay-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+html.dark .story-overlay-btn {
+    background: #2a2d33;
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .story-overlay-btn:hover {
+    background: #3a3d43;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* Custom Gradient Theme Maps */
+.bg-grad-mountains { background: linear-gradient(135deg, #1f4037, #99f2c8); }
+.bg-grad-panda { background: linear-gradient(135deg, #3a6073, #3a7bd5); }
+.bg-grad-book { background: linear-gradient(135deg, #4b6cb7, #182848); }
+.bg-grad-storm { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+.bg-grad-magic { background: linear-gradient(135deg, #4e54c8, #8f94fb); }
+.bg-grad-cosmos { background: linear-gradient(135deg, #000428, #004e92); }
+.bg-grad-mirror { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+.bg-grad-leaves { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.bg-grad-battle { background: linear-gradient(135deg, #e65c00, #f9d423); }
+.bg-grad-water { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+.bg-grad-sprout { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+.bg-grad-bridge { background: linear-gradient(135deg, #e9d362, #333333); }
+.bg-grad-city { background: linear-gradient(135deg, #614385, #516395); }
+
+@media (max-width: 640px) {
+    .story-card-wrapper {
+        min-height: auto;
+    }
+    .comic-frame {
+        padding: 1.2rem;
+    }
+    .comic-text-bubble {
+        font-size: 0.95rem;
+        padding: 1.2rem;
+    }
+}
