@@ -14,7 +14,7 @@ class SideBar extends HTMLElement {
                 </div>
                 <div>
                     <h2 class="text-base font-bold leading-tight transition-colors duration-300">Triết Học Hệ Số</h2>
-                    <p class="text-xs transition-colors duration-300">Nhóm 4 Triết Học MLN111</p>
+                    <p class="text-xs transition-colors duration-300">Hành Trình của Miu 🐱</p>
                 </div>
             </div>
             <a href="lythuyet.html" class="sidebar-btn w-full text-sm font-semibold py-2.5 rounded-full hover:opacity-90 transition-all shadow-sm flex items-center justify-center gap-2">
@@ -53,7 +53,7 @@ class TopBar extends HTMLElement {
         this.innerHTML = `
     <header class="shadow-sm fixed top-0 left-0 right-0 lg:left-64 z-50 border-b transition-all duration-300">
         <div class="flex justify-between items-center w-full px-6 py-3 max-w-6xl mx-auto">
-            <h1 class="text-xl font-extrabold tracking-tight transition-colors duration-300">Triết Học Hệ Số</h1>
+            <h1 class="text-xl font-extrabold tracking-tight transition-colors duration-300">Triết Học Hệ Số 🐱</h1>
             <nav class="hidden md:flex gap-6 items-center">
                 <a class="${active === 'index' ? 'top-active border-b-2' : ''} text-sm font-bold pb-1 transition-all duration-300" href="index.html">Trang Chủ</a>
                 <a class="${active === 'lythuyet' ? 'top-active border-b-2' : ''} text-sm font-medium pb-1 hover:opacity-80 transition-all duration-300" href="lythuyet.html">Lý Luận</a>
@@ -63,7 +63,7 @@ class TopBar extends HTMLElement {
                 <span id="mode-text" class="text-[10px] font-bold hidden sm:inline uppercase tracking-wider transition-colors duration-300">TÙ TÚNG (ÂM)</span>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="theme-toggle" class="sr-only peer">
-                    <div class="toggle-track w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#b71032] shadow-inner"></div>
+                    <div class="toggle-track w-11 h-6 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300"></div>
                 </label>
             </div>
         </div>
